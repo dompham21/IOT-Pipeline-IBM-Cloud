@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <title>AutoAI German Credit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+
+<body style="background-color: #d2deed">
+
+
+
+  <center>
+    <div style="app-header">
+      <h2>German Credit Estimator</h2>
+      <p>Estimation by IBM Watson Machine Learning and AutoAI.</p>
+      <p>Fill out the form to see an estimate.</p>
+    </div>
+  </center>
+
+  <form style="border-style: solid; color: black; margin-bottom:10px; padding-top:20px" method="POST" action="/predict">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="form-field">
+              {{ form.check_account.label }} {{ form.check_account }}
+          </div>
+          <small id="emailHelp" class="form-text text-muted mb-2 mt-0">A11 : ... < 0 DM; A12 : 0 <= ... < 200 DM; 13 : ... >= 200 DM / salary assignments for at least 1 year ;A14 : no checking account</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.duration.label }} {{ form.duration }}</div>
+          <small id="durationhelp" class="form-text text-muted mb-2 mt-0">Duration in month > 0</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.credit_history.label }} {{ form.credit_history }}</div>
+            <small id="credit_history" class="form-text text-muted mb-2 mt-0">
+              A30 : no credits taken/ all credits paid back duly
+              A31 : all credits at this bank paid back duly
+              A32 : existing credits paid back duly till now
+              A33 : delay in paying off in the past
+              A34 : critical account/ other credits existing (not at this bank)
+            </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.purpose.label }} {{ form.purpose }}</div>
+           <small id="purpose" class="form-text text-muted mb-2 mt-0">
+              A40 : car (new)
+              A41 : car (used)
+              A42 : furniture/equipment
+              A43 : radio/television
+              A44 : domestic appliances
+              A45 : repairs
+              A46 : education
+              A47 : (vacation - does not exist?)
+              A48 : retraining
+              A49 : business
+              A410 : others
+            </small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.credit_amount.label }} {{ form.credit_amount }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Credit amount</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.saving_account.label }} {{ form.saving_account }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A61 : ... < 100 DM
+            A62 : 100 <= ... < 500 DM
+            A63 : 500 <= ... < 1000 DM
+            A64 : .. >= 1000 DM
+            A65 : unknown/ no savings account
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.employment.label }} {{ form.employment }}</div>
+           <small class="form-text text-muted mb-2 mt-0">A61 : ... < 100 DM
+            A71 : unemployed
+            A72 : ... < 1 year
+            A73 : 1 <= ... < 4 years
+            A74 : 4 <= ... < 7 years
+            A75 : .. >= 7 years
+          </small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.install_rate.label }} {{ form.install_rate }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Installment rate in percentage of disposable income</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.personal_status.label }} {{ form.personal_status }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A91 : male : divorced/separated
+          A92 : female : divorced/separated/married
+          A93 : male : single
+          A94 : male : married/widowed
+          A95 : female : single
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.other_debrotors.label }} {{ form.other_debrotors }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A101 : none
+          A102 : co-applicant
+          A103 : guarantor
+          </small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.present_residence.label }} {{ form.present_residence }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Present residence since</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.property.label }} {{ form.property }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A121 : real estate
+          A122 : if not A121 : building society savings agreement/ life insurance
+          A123 : if not A121/A122 : car or other, not in attribute 6
+          A124 : unknown / no property</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.age.label }} {{ form.age }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Age in years</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.installment_plant.label }} {{ form.installment_plant }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A141 : bank
+          A142 : stores
+          A143 : none</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.housing.label }} {{ form.housing }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A151 : rent
+          A152 : own
+          A153 : for free</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.num_credits.label }} {{ form.num_credits }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Number of existing credits at this bank</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.job.label }} {{ form.job }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A171 : unemployed/ unskilled - non-resident
+          A172 : unskilled - resident
+          A173 : skilled employee / official
+          A174 : management/ self-employed/
+          highly qualified employee/ officer</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.num_dependents.label }} {{ form.num_dependents }}</div>
+          <small class="form-text text-muted mb-2 mt-0">Number of people being liable to provide maintenance for</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-field ">{{ form.telephone.label }} {{ form.telephone }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A191 : none
+          A192 : yes, registered under the customers name</small>
+        </div>
+        <div class="col">
+          <div class="form-field ">{{ form.foreign.label }} {{ form.foreign }}</div>
+          <small class="form-text text-muted mb-2 mt-0">A201 : yes
+          A202 : no</small>
+        </div>
+        <div class="col"></div>
+      </div>
+
+
+
+
+
+    </div>
+    <div class="text-center">
+          <input id="submit" style="margin-bottom: 10px;" name="submit" type="submit" onclick="startSpinner()" value="Predict">
+
+    </div>
+
+    <br>
+  </form>
+
+  <div class="d-flex justify-content-center">
+    <div id="loader" style="color:black; display: none;" class="spinner-border"></div>
+  </div>
+  <div class="output-container">
+    <center>
+      <div id="output">
+        <h5 id="a">Predicted German Credit: </h5>
+        <h3 id="b">{{ form.abc }}</h3>
+      </div>
+    </center>
+  </div>
+
+  <center>
+    <img src="static/diagram.png" alt="arch-diagram">
+  </center>
+
+  <script>
+
+window.onload = function exampleFunction() { 
+
+} 
+
+    function startSpinner() {
+      var x = document.getElementById("loader");
+      x.style.display = "block";
+      var output = document.getElementById("output");
+      output.style.display = "none"
+      setTimeout(function () {
+        var y = document.getElementById("output");
+        var x = document.getElementById("loader");
+        var a = document.getElementById("a");
+        var b = document.getElementById("b");
+        x.style.display = "none";
+        y.style.display = "block"
+        a.style.display = "block"
+        b.style.display = "block"
+      }, 3000);
+
+    }
+  </script>
+
+</body>
+
+</html>
